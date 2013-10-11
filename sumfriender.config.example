@@ -1,0 +1,5 @@
+[FB_API]
+APP_ID=XXXX
+APP_KEY=XXXX
+OAUTH_TOKEN=
+REDIRECT_URI=https://example.com/fb_token.html
