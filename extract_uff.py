@@ -14,6 +14,7 @@ import sys
 import re
 import json 
 import time
+import os
 
 def format_json(json_obj):
   obj = json.loads(json_obj)
@@ -23,6 +24,11 @@ def format_json(json_obj):
   return ret
 
 def save(name,lst):
+  i = 1
+  while os.path.exists(name):
+    name = '{0}.{1}'.format(name,i)
+    i += 1
+    
   print("Writing {0}".format(name))
   fd = open(name,'w')
   for i in lst:
