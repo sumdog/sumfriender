@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 """
-   sumfriender.py  -  A script for detecting changes in your Facebook friend_list
+   sumfriender.py  -  A script for detecting changes in your Facebook friend list
 
-     Copyright 2013 - Sumit Khanna - Penguindreams.org
+     Copyright 2013 - Sumit Khanna - PenguinDreams.org
 
      Free for non-commercial use
 
@@ -143,9 +143,10 @@ if __name__ == '__main__':
     default='sumfriender.config',metavar='config')
   parser.add_argument('-f',help='friend list db file [default: %(default)s]',
     default='friends.txt',metavar='friend_db')
-  parser.add_argument('-s',help='status log file [default: %(default)s]',
-    default='status.txt',metavar='status')
-  
+  parser.add_argument('-l',help='status log file [default: %(default)s]',
+    default='status.txt',metavar='log')
+  parser.add_argument('-s',help='supress writing status to standard out', action='store_true')
+
   args = parser.parse_args()
 
   if not os.path.exists(args.c):
@@ -169,25 +170,25 @@ if __name__ == '__main__':
       save_friends(args.f,cur_friends)
     else:
 
-      old_friends = load_old_friends('friends.txt')
-      status = StatusWriter(args.s)
+      old_friends = load_old_friends(args.f)
+      out = StatusWriter(args.l, not args.s)
       heading = False
 
       for uid in old_friends:
         if uid not in cur_friends:
 
           if not heading:
-            date = strftime("%Y-%m-%d %H:%M:%S")
-            status.write(date)
-            status.write('----------------------')
+            date = time.strftime("%Y-%m-%d %H:%M:%S")
+            out.write(date)
+            out.write('----------------------')
             heading = True
 
-          status = 'is no longer in your friends list' if fb.user_active(uid) else 'has been deactivated'
+          status = 'is no longer in your friends list' if fb.user_active(uid) else 'has been deactivated or has disabled application access'
           output = "Friend {0} ({1}) {2}".format(old_friends[uid],uid,status)
 
-          status.write(output)
+          out.write(output)
 
       if heading:
-        status.write('')    
+        out.write('')    
 
       save_friends(args.f,cur_friends,)
