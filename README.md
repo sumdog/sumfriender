@@ -4,6 +4,9 @@ sumfriender
 Sumfriender is a script designed to query a user's Facebook friend list and detect when friends
 have been removed or deactivated.
 
+Update
+======
+**As of May 1, 2015, this script no longer works. Facebook changed their API so apps could only list friends who used the same app. They added _taggable friends_ to their API, but my attempts to use it inplace of the current implementation have failed.**
 
 Usage
 =====
